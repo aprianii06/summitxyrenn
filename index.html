@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SummitXyrenn – Open Trip Gunung Indonesia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    /* ===== CSS VARIABLES ===== */
+    :root {
+      --pink-dark:  #3d0a1e;
+      --pink-mid:   #9b2a5a;
+      --pink-acc:   #e05a8a;
+      --pink-light: #f4b8d2;
+      --cream:      #fdf5f8;
+      --warm:       #f5dde8;
+      --gold:       #e8a0bf;
+      --rose:       #c9386a;
+      --white:      #ffffff;
+      --text-dark:  #1a1a1a;
+      --text-mid:   #3a3a3a;
+      --text-light: #7a4a5a;
+      --shadow:     0 8px 40px rgba(61,10,30,.18);
+      --radius:     16px;
+      --trans:      all .35s cubic-bezier(.4,0,.2,1);
+    }
+
+    /* ===== RESET ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text-dark);
+      overflow-x: hidden;
+    }
+
+    /* ===== NAVBAR ===== */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 5%;
+      background: rgba(61,10,30,.92);
+      backdrop-filter: blur(14px);
+      transition: var(--trans);
+    }
+    nav.scrolled { padding: 12px 5%; box-shadow: var(--shadow); }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      color: var(--pink-light);
+      font-size: 1.6rem;
+      font-weight: 900;
+      letter-spacing: -1px;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--gold); }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      color: var(--cream);
+      text-decoration: none;
+      font-size: .92rem;
+      font-weight: 500;
+      letter-spacing: .5px;
+      position: relative;
+      transition: var(--trans);
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute; bottom: -4px; left: 0;
+      width: 0; height: 2px;
+      background: var(--gold);
+      transition: var(--trans);
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-cta {
+      background: var(--rose) !important;
+      color: var(--white) !important;
+      padding: 9px 22px !important;
+      border-radius: 50px;
+      font-weight: 600 !important;
+    }
+    .nav-cta:hover { background: var(--pink-light) !important; color: var(--pink-dark) !important; }
+    .nav-cta::after { display: none !important; }
+
+    /* Hamburger */
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { display: block; width: 26px; height: 2px; background: var(--cream); border-radius: 2px; transition: var(--trans); }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ===== HERO ===== */
+    #home {
+      min-height: 100vh;
+      background:
+        linear-gradient(to bottom, rgba(61,10,30,.78) 0%, rgba(61,10,30,.35) 50%, rgba(61,10,30,.88) 100%),
+        url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1600&q=80') center/cover no-repeat;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center;
+      padding: 140px 5% 80px;
+      position: relative; overflow: hidden;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(232,160,191,.2);
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-size: .78rem;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      padding: 7px 20px;
+      border-radius: 50px;
+      margin-bottom: 28px;
+      animation: fadeUp .7s .1s both;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 24px;
+      animation: fadeUp .7s .25s both;
+    }
+    .hero-title span { color: var(--pink-light); font-style: italic; }
+    .hero-subtitle {
+      max-width: 560px;
+      color: rgba(255,255,255,.78);
+      font-size: 1.08rem;
+      line-height: 1.7;
+      margin-bottom: 44px;
+      animation: fadeUp .7s .4s both;
+    }
+    .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; animation: fadeUp .7s .55s both; }
+    .btn-primary {
+      background: var(--rose);
+      color: var(--white);
+      border: none; cursor: pointer;
+      padding: 15px 36px;
+      border-radius: 50px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .98rem;
+      font-weight: 700;
+      letter-spacing: .3px;
+      text-decoration: none;
+      transition: var(--trans);
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-primary:hover { background: var(--pink-light); color: var(--pink-dark); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(201,56,106,.4); }
+    .btn-outline {
+      background: transparent;
+      border: 2px solid rgba(255,255,255,.5);
+      color: var(--white);
+      padding: 14px 36px;
+      border-radius: 50px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .98rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--trans);
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-outline:hover { border-color: var(--white); background: rgba(255,255,255,.1); transform: translateY(-2px); }
+
+    /* Stats strip */
+    .hero-stats {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      display: flex; justify-content: center; gap: 0;
+      background: rgba(61,10,30,.88);
+      backdrop-filter: blur(10px);
+      animation: fadeUp .7s .7s both;
+    }
+    .stat-item {
+      padding: 22px 48px;
+      text-align: center;
+      border-right: 1px solid rgba(255,255,255,.1);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem; font-weight: 900;
+      color: var(--gold);
+      display: block;
+    }
+    .stat-label { font-size: .78rem; color: rgba(255,255,255,.6); letter-spacing: 1px; text-transform: uppercase; }
+
+    /* ===== SECTION COMMON ===== */
+    section { padding: 96px 5%; }
+    .section-tag {
+      display: inline-block;
+      background: var(--pink-light);
+      color: var(--pink-dark);
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 50px;
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 900;
+      color: var(--pink-dark);
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .section-title span { color: var(--pink-mid); font-style: italic; }
+    .section-subtitle { color: var(--text-light); font-size: 1rem; line-height: 1.7; max-width: 520px; }
+
+    /* ===== ABOUT ===== */
+    #tentang {
+      background: var(--white);
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .about-img-wrap {
+      position: relative;
+    }
+    .about-img-main {
+      width: 100%; height: 480px;
+      object-fit: cover;
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+    }
+    .about-img-accent {
+      position: absolute;
+      width: 180px; height: 180px;
+      object-fit: cover;
+      border-radius: 16px;
+      border: 5px solid var(--white);
+      box-shadow: var(--shadow);
+      bottom: -32px; right: -32px;
+    }
+    .about-badge-float {
+      position: absolute;
+      top: 28px; left: -24px;
+      background: var(--pink-dark);
+      color: var(--white);
+      padding: 16px 22px;
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+    .about-badge-float strong {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--gold);
+      display: block;
+    }
+    .about-badge-float span { font-size: .78rem; color: rgba(255,255,255,.7); }
+    .about-text { padding-left: 16px; }
+    .about-features { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 36px; }
+    .feat-card {
+      background: var(--cream);
+      border-radius: 14px;
+      padding: 20px;
+      display: flex; gap: 14px; align-items: flex-start;
+    }
+    .feat-icon {
+      width: 44px; height: 44px;
+      background: var(--pink-mid);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+    .feat-card h4 { font-size: .9rem; font-weight: 700; color: var(--pink-dark); margin-bottom: 4px; }
+    .feat-card p { font-size: .8rem; color: var(--text-light); line-height: 1.5; }
+
+    /* Identity card */
+    .identity-card {
+      background: var(--pink-dark);
+      color: var(--white);
+      border-radius: 20px;
+      padding: 32px;
+      margin-top: 36px;
+      display: flex; align-items: center; gap: 24px;
+    }
+    .id-avatar {
+      width: 72px; height: 72px;
+      background: var(--rose);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
+      flex-shrink: 0;
+    }
+    .id-info h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--gold); margin-bottom: 4px; }
+    .id-info p { font-size: .85rem; color: rgba(255,255,255,.7); margin-bottom: 2px; }
+    .id-nim {
+      display: inline-block;
+      background: rgba(232,160,191,.2);
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      padding: 4px 12px;
+      border-radius: 50px;
+      margin-top: 8px;
+    }
+
+    /* ===== LAYANAN ===== */
+    #layanan { background: var(--cream); }
+    .layanan-header { text-align: center; margin-bottom: 60px; }
+    .layanan-header .section-subtitle { margin: 0 auto; }
+    .trips-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      max-width: 1200px;
+      margin: 0 auto 56px;
+    }
+    .trip-card {
+      background: var(--white);
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(61,10,30,.08);
+      transition: var(--trans);
+      position: relative;
+    }
+    .trip-card:hover { transform: translateY(-8px); box-shadow: var(--shadow); }
+    .trip-img-wrap { position: relative; overflow: hidden; height: 220px; }
+    .trip-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+    .trip-card:hover .trip-img-wrap img { transform: scale(1.08); }
+    .trip-badge {
+      position: absolute; top: 14px; left: 14px;
+      background: var(--rose);
+      color: var(--white);
+      font-size: .7rem; font-weight: 700;
+      letter-spacing: 1px; text-transform: uppercase;
+      padding: 5px 12px; border-radius: 50px;
+    }
+    .trip-difficulty {
+      position: absolute; top: 14px; right: 14px;
+      background: rgba(61,10,30,0.75);
+      color: var(--white);
+      font-size: .7rem; font-weight: 600;
+      padding: 5px 12px; border-radius: 50px;
+    }
+    .trip-body { padding: 24px; }
+    .trip-body h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--pink-dark); margin-bottom: 6px; }
+    .trip-location { font-size: .82rem; color: var(--text-light); margin-bottom: 14px; display: flex; align-items: center; gap: 5px; }
+    .trip-meta { display: flex; gap: 16px; margin-bottom: 18px; }
+    .trip-meta span { font-size: .8rem; color: var(--text-mid); display: flex; align-items: center; gap: 5px; }
+    .trip-desc { font-size: .85rem; color: var(--text-light); line-height: 1.65; margin-bottom: 20px; }
+    .trip-footer { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--warm); padding-top: 18px; }
+    .trip-price { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--pink-mid); font-weight: 900; }
+    .trip-price small { font-family: 'DM Sans', sans-serif; font-size: .72rem; color: var(--text-light); font-weight: 400; display: block; }
+    .btn-book {
+      background: var(--rose);
+      color: var(--white);
+      border: none; cursor: pointer;
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-size: .82rem; font-weight: 700;
+      font-family: 'DM Sans', sans-serif;
+      transition: var(--trans);
+      text-decoration: none;
+    }
+    .btn-book:hover { background: var(--pink-mid); transform: scale(1.04); }
+
+    /* Package table */
+    .package-section { max-width: 900px; margin: 0 auto; }
+    .package-section h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.7rem; color: var(--pink-dark);
+      text-align: center; margin-bottom: 32px;
+    }
+    .package-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--white);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(61,10,30,.08);
+    }
+    .package-table thead { background: var(--pink-dark); }
+    .package-table thead th {
+      color: var(--white); padding: 18px 24px;
+      font-size: .85rem; font-weight: 600;
+      text-align: left; letter-spacing: .5px;
+    }
+    .package-table tbody tr { border-bottom: 1px solid var(--warm); transition: var(--trans); }
+    .package-table tbody tr:hover { background: var(--cream); }
+    .package-table tbody td { padding: 16px 24px; font-size: .88rem; color: var(--text-mid); }
+    .pkg-name { font-weight: 700; color: var(--pink-dark) !important; }
+    .pkg-inc { color: #c9386a !important; font-weight: 600; }
+    .pkg-exc { color: #aaaaaa !important; font-weight: 600; }
+
+    /* ===== GALERI ===== */
+    #galeri { background: var(--pink-dark); }
+    #galeri .section-tag { background: rgba(232,160,191,.2); color: var(--gold); }
+    #galeri .section-title { color: var(--white); }
+    #galeri .section-title span { color: var(--pink-light); }
+    .galeri-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px; max-width: 1200px; margin-left: auto; margin-right: auto; }
+    .galeri-header .section-subtitle { color: rgba(255,255,255,.6); }
+    .filter-btns { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+    .filter-btn {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,.25);
+      color: rgba(255,255,255,.7);
+      padding: 8px 18px;
+      border-radius: 50px;
+      font-size: .8rem; font-weight: 600;
+      cursor: pointer;
+      transition: var(--trans);
+      font-family: 'DM Sans', sans-serif;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: var(--rose); color: var(--white); border-color: var(--rose);
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: 220px;
+      gap: 14px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .gallery-item { border-radius: 14px; overflow: hidden; position: relative; cursor: pointer; }
+    .gallery-item.tall { grid-row: span 2; }
+    .gallery-item.wide { grid-column: span 2; }
+    .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+    .gallery-item:hover img { transform: scale(1.08); }
+    .gallery-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(155,42,90,0.85) 0%, transparent 60%);
+      opacity: 0;
+      transition: var(--trans);
+      display: flex; align-items: flex-end;
+      padding: 16px;
+    }
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+    .gallery-overlay span { color: var(--white); font-size: .85rem; font-weight: 600; }
+
+    /* Lightbox */
+    .lightbox {
+      display: none;
+      position: fixed; inset: 0; z-index: 9999;
+      background: rgba(0,0,0,.92);
+      align-items: center; justify-content: center;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img { max-width: 90vw; max-height: 85vh; border-radius: 12px; }
+    .lightbox-close {
+      position: absolute; top: 24px; right: 32px;
+      color: var(--white); font-size: 2.5rem;
+      cursor: pointer; line-height: 1;
+    }
+
+    /* ===== KONTAK ===== */
+    #kontak { background: var(--cream); }
+    .kontak-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 64px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .kontak-info h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem; color: var(--pink-dark);
+      margin-bottom: 20px;
+    }
+    .kontak-info p { color: var(--text-light); line-height: 1.7; margin-bottom: 36px; }
+    .contact-items { display: flex; flex-direction: column; gap: 20px; }
+    .contact-item {
+      display: flex; gap: 16px; align-items: flex-start;
+      background: var(--white);
+      border-radius: 14px;
+      padding: 18px 20px;
+      box-shadow: 0 2px 12px rgba(61,10,30,.06);
+    }
+    .contact-icon {
+      width: 44px; height: 44px;
+      background: var(--pink-mid);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .contact-item h4 { font-size: .85rem; font-weight: 700; color: var(--pink-dark); margin-bottom: 3px; }
+    .contact-item p { font-size: .85rem; color: var(--text-light); }
+
+    /* Form */
+    .kontak-form {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 44px;
+      box-shadow: var(--shadow);
+    }
+    .kontak-form h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; color: var(--pink-dark);
+      margin-bottom: 28px;
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .form-group { display: flex; flex-direction: column; gap: 7px; margin-bottom: 18px; }
+    .form-group label { font-size: .82rem; font-weight: 600; color: var(--pink-dark); letter-spacing: .3px; }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      border: 2px solid var(--warm);
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .9rem;
+      color: var(--text-dark);
+      background: var(--cream);
+      outline: none;
+      transition: var(--trans);
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--pink-mid);
+      background: var(--white);
+      box-shadow: 0 0 0 4px rgba(155,42,90,.1);
+    }
+    .form-group textarea { resize: vertical; min-height: 110px; }
+    .form-submit {
+      width: 100%;
+      background: var(--rose);
+      color: var(--white);
+      border: none; cursor: pointer;
+      padding: 16px;
+      border-radius: 50px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem; font-weight: 700;
+      letter-spacing: .5px;
+      transition: var(--trans);
+      margin-top: 8px;
+    }
+    .form-submit:hover { background: var(--pink-dark); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(155,42,90,.35); }
+    .form-success {
+      display: none;
+      background: rgba(232,160,191,.15);
+      border: 2px solid var(--rose);
+      border-radius: 14px;
+      padding: 20px;
+      text-align: center;
+      color: var(--pink-mid);
+      font-weight: 600;
+      margin-top: 18px;
+    }
+    .form-success.show { display: block; }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--pink-dark);
+      color: var(--white);
+      padding: 64px 5% 28px;
+    }
+    .footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1.2fr; gap: 48px; margin-bottom: 48px; }
+    .footer-brand .nav-logo { font-size: 1.8rem; display: block; margin-bottom: 14px; }
+    .footer-brand p { color: rgba(255,255,255,.55); font-size: .88rem; line-height: 1.7; max-width: 260px; }
+    .footer-col h4 { font-size: .85rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 18px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul li a { color: rgba(255,255,255,.6); text-decoration: none; font-size: .87rem; transition: var(--trans); }
+    .footer-col ul li a:hover { color: var(--pink-light); }
+    .footer-socials { display: flex; gap: 12px; margin-top: 20px; }
+    .social-btn {
+      width: 40px; height: 40px;
+      background: rgba(255,255,255,.08);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: var(--trans);
+    }
+    .social-btn:hover { background: var(--rose); transform: translateY(-3px); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,.1);
+      padding-top: 28px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-bottom p { font-size: .82rem; color: rgba(255,255,255,.45); }
+
+    /* ===== SCROLL TO TOP ===== */
+    .scroll-top {
+      position: fixed; bottom: 32px; right: 32px;
+      width: 48px; height: 48px;
+      background: var(--rose);
+      color: var(--white);
+      border: none; cursor: pointer;
+      border-radius: 50%;
+      font-size: 1.3rem;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 18px rgba(201,56,106,.4);
+      transition: var(--trans);
+      opacity: 0; pointer-events: none;
+      z-index: 999;
+    }
+    .scroll-top.visible { opacity: 1; pointer-events: auto; }
+    .scroll-top:hover { transform: translateY(-4px); }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(36px);
+      transition: opacity .65s ease, transform .65s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .trips-grid { grid-template-columns: repeat(2, 1fr); }
+      .gallery-grid { grid-template-columns: repeat(3, 1fr); }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--pink-dark); padding: 20px 5%; gap: 18px; }
+      .nav-links.open { display: flex; }
+      .hamburger { display: flex; }
+      .about-grid, .kontak-grid { grid-template-columns: 1fr; }
+      .about-img-accent { display: none; }
+      .about-badge-float { left: 14px; }
+      .trips-grid { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .gallery-item.tall { grid-row: span 1; }
+      .gallery-item.wide { grid-column: span 1; }
+      .galeri-header { flex-direction: column; align-items: flex-start; gap: 20px; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .hero-stats { position: static; flex-wrap: wrap; }
+      .stat-item { padding: 16px 24px; }
+      .about-features { grid-template-columns: 1fr; }
+      .kontak-form { padding: 28px 20px; }
+    }
+    @media (max-width: 480px) {
+      .gallery-grid { grid-template-columns: 1fr; }
+      .hero-btns { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav id="navbar">
+  <a href="#home" class="nav-logo">Summit<span>Xyrenn</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#tentang">Tentang</a></li>
+    <li><a href="#layanan">Layanan</a></li>
+    <li><a href="#galeri">Galeri</a></li>
+    <li><a href="#kontak" class="nav-cta">Daftar Trip</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section id="home">
+  <div class="hero-badge">🏔️ Open Trip Gunung Indonesia</div>
+  <h1 class="hero-title">Jejaki Puncak<br><span>Nusantara</span> Bersama Kami</h1>
+  <p class="hero-subtitle">Rasakan pengalaman mendaki gunung-gunung terbaik Indonesia dengan panduan profesional, perlengkapan lengkap, dan komunitas pendaki yang solid.</p>
+  <div class="hero-btns">
+    <a href="#layanan" class="btn-primary">🗺️ Lihat Jadwal Trip</a>
+    <a href="#tentang" class="btn-outline">▶ Tentang Kami</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item"><span class="stat-num">50+</span><span class="stat-label">Gunung Dijelajahi</span></div>
+    <div class="stat-item"><span class="stat-num">2.000+</span><span class="stat-label">Pendaki Puas</span></div>
+    <div class="stat-item"><span class="stat-num">8 Thn</span><span class="stat-label">Pengalaman</span></div>
+    <div class="stat-item"><span class="stat-num">100%</span><span class="stat-label">Keselamatan</span></div>
+  </div>
+</section>
+
+<!-- ===== TENTANG ===== -->
+<section id="tentang">
+  <div class="about-grid">
+    <div class="about-img-wrap">
+      <img class="about-img-main" src="https://images.unsplash.com/photo-1551632811-561732d1e306?w=800&q=80" alt="Pendakian Gunung">
+      <img class="about-img-accent" src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80" alt="Puncak Gunung">
+      <div class="about-badge-float">
+        <strong>8+</strong>
+        <span>Tahun Berpengalaman</span>
+      </div>
+    </div>
+    <div class="about-text">
+      <span class="section-tag">Tentang Kami</span>
+      <h2 class="section-title">Kami Adalah <span>Penjelajah</span> Sejati</h2>
+      <p class="section-subtitle">SummitXyrenn adalah komunitas open trip gunung yang berdedikasi untuk menghadirkan pengalaman mendaki yang aman, menyenangkan, dan tak terlupakan di seluruh penjuru nusantara.</p>
+      <div class="about-features">
+        <div class="feat-card">
+          <div class="feat-icon">🦺</div>
+          <div>
+            <h4>Keselamatan Utama</h4>
+            <p>Semua guide bersertifikat SAR dan P3K profesional.</p>
+          </div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">🎒</div>
+          <div>
+            <h4>Perlengkapan Lengkap</h4>
+            <p>Tenda, sleeping bag, carrier tersedia untuk disewa.</p>
+          </div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">🍲</div>
+          <div>
+            <h4>Konsumsi Terjamin</h4>
+            <p>Logistik makanan bergizi selama pendakian diurus kami.</p>
+          </div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">👥</div>
+          <div>
+            <h4>Komunitas Solid</h4>
+            <p>Bergabung dengan ribuan pendaki aktif di seluruh Indonesia.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Identity Card -->
+      <div class="identity-card">
+        <div class="id-avatar">👤</div>
+        <div class="id-info">
+          <h3>Irene Apriani Widjaya</h3>
+          <p>Program Studi Sistem Komputer</p>
+          <p>Universitas Raharja</p>
+          <span class="id-nim">NIM: 2431417067</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== LAYANAN ===== -->
+<section id="layanan">
+  <div class="layanan-header">
+    <span class="section-tag">Layanan Kami</span>
+    <h2 class="section-title">Destinasi <span>Populer</span></h2>
+    <p class="section-subtitle">Pilih perjalanan impianmu dari daftar open trip kami yang tersebar di berbagai gunung ikonik Indonesia.</p>
+  </div>
+
+  <div class="trips-grid">
+    <!-- Trip 1 -->
+    <div class="trip-card reveal">
+      <div class="trip-img-wrap">
+        <img src="c:\Users\Irene Apriani\Downloads\WhatsApp Image 2026-04-29 at 13.59.51 (3).jpeg" alt="Gunung Rinjani">
+        <span class="trip-badge">⭐ Terlaris</span>
+        <span class="trip-difficulty">Sedang–Berat</span>
+      </div>
+      <div class="trip-body">
+        <h3>Gunung Rinjani</h3>
+        <p class="trip-location">📍 Lombok, NTB</p>
+        <div class="trip-meta">
+          <span>⏱ 4 Hari 3 Malam</span>
+          <span>👥 Max 12 Orang</span>
+        </div>
+        <p class="trip-desc">Jelajahi kaldera raksasa Rinjani dan Segara Anak, danau kawah yang memukau di ketinggian 2.000 mdpl.</p>
+        <div class="trip-footer">
+          <div class="trip-price">Rp 1.850.000<small>/orang</small></div>
+          <a href="#kontak" class="btn-book">Daftar</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trip 2 -->
+    <div class="trip-card reveal">
+      <div class="trip-img-wrap">
+        <img src="c:\Users\Irene Apriani\Downloads\WhatsApp Image 2026-04-29 at 13.59.51 (1).jpeg" alt="Gunung Semeru">
+        <span class="trip-badge">🔥 Hot Deal</span>
+        <span class="trip-difficulty">Berat</span>
+      </div>
+      <div class="trip-body">
+        <h3>Gunung Semeru</h3>
+        <p class="trip-location">📍 Malang, Jawa Timur</p>
+        <div class="trip-meta">
+          <span>⏱ 5 Hari 4 Malam</span>
+          <span>👥 Max 10 Orang</span>
+        </div>
+        <p class="trip-desc">Raih puncak tertinggi Jawa di 3.676 mdpl, melewati savana luas dan Ranu Kumbolo yang legendaris.</p>
+        <div class="trip-footer">
+          <div class="trip-price">Rp 2.200.000<small>/orang</small></div>
+          <a href="#kontak" class="btn-book">Daftar</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trip 3 -->
+    <div class="trip-card reveal">
+      <div class="trip-img-wrap">
+        <img src="c:\Users\Irene Apriani\Downloads\WhatsApp Image 2026-04-29 at 13.59.51.jpeg" alt="Gunung Prau">
+        <span class="trip-badge">✨ Pemula</span>
+        <span class="trip-difficulty">Mudah</span>
+      </div>
+      <div class="trip-body">
+        <h3>Gunung Prau</h3>
+        <p class="trip-location">📍 Wonosobo, Jawa Tengah</p>
+        <div class="trip-meta">
+          <span>⏱ 2 Hari 1 Malam</span>
+          <span>👥 Max 20 Orang</span>
+        </div>
+        <p class="trip-desc">Cocok untuk pemula dengan jalur bersahabat, sunrise memukau di atas lautan awan Dieng.</p>
+        <div class="trip-footer">
+          <div class="trip-price">Rp 550.000<small>/orang</small></div>
+          <a href="#kontak" class="btn-book">Daftar</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trip 4 -->
+    <div class="trip-card reveal">
+      <div class="trip-img-wrap">
+        <img src="c:\Users\Irene Apriani\Downloads\WhatsApp Image 2026-04-29 at 13.36.49.jpeg" alt="Gunung Papandayan">
+        <span class="trip-badge">🌈 Unik</span>
+        <span class="trip-difficulty">Mudah</span>
+      </div>
+      <div class="trip-body">
+        <h3>Gunung Papandayan</h3>
+        <p class="trip-location">📍 Garut, Jawa Barat</p>
+        <div class="trip-meta">
+          <span>⏱ 3 Hari 2 Malam</span>
+          <span>👥 Max 15 Orang</span>
+        </div>
+        <p class="trip-desc">Saksikan tiga danau kawah berwarna-warni yang berubah warna secara misterius di Flores.</p>
+        <div class="trip-footer">
+          <div class="trip-price">Rp 500.000<small>/orang</small></div>
+          <a href="#kontak" class="btn-book">Daftar</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trip 5 -->
+    <div class="trip-card reveal">
+      <div class="trip-img-wrap">
+        <img src="c:\Users\Irene Apriani\Downloads\WhatsApp Image 2026-04-29 at 13.39.59.jpeg" alt="Gunung Merbabu">
+        <span class="trip-badge">🌟 Favorit</span>
+        <span class="trip-difficulty">Sedang</span>
+      </div>
+      <div class="trip-body">
+        <h3>Gunung Merbabu</h3>
+        <p class="trip-location">📍 Boyolali, Jawa Tengah</p>
+        <div class="trip-meta">
+          <span>⏱ 3 Hari 2 Malam</span>
+          <span>👥 Max 15 Orang</span>
+        </div>
+        <p class="trip-desc">Padang sabana yang luas dan jalur yang bervariasi membuat Merbabu jadi favorit para pendaki.</p>
+        <div class="trip-footer">
+          <div class="trip-price">Rp 750.000<small>/orang</small></div>
+          <a href="#kontak" class="btn-book">Daftar</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trip 6 -->
+    <div class="trip-card reveal">
+      <div class="trip-img-wrap">
+        <img src="c:\Users\Irene Apriani\Downloads\WhatsApp Image 2026-04-29 at 13.59.51 (2).jpeg" alt="Gunung Bromo">
+        <span class="trip-badge">📸 Instagramable</span>
+        <span class="trip-difficulty">Mudah</span>
+      </div>
+      <div class="trip-body">
+        <h3>Gunung Bromo</h3>
+        <p class="trip-location">📍 Probolinggo, Jawa Timur</p>
+        <div class="trip-meta">
+          <span>⏱ 2 Hari 1 Malam</span>
+          <span>👥 Max 25 Orang</span>
+        </div>
+        <p class="trip-desc">Lautan pasir dan kawah aktif Bromo dengan panorama sunrise paling ikonik di Indonesia.</p>
+        <div class="trip-footer">
+          <div class="trip-price">Rp 650.000<small>/orang</small></div>
+          <a href="#kontak" class="btn-book">Daftar</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Package Table -->
+  <div class="package-section reveal">
+    <h3>Perbandingan Paket Trip</h3>
+    <table class="package-table">
+      <thead>
+        <tr>
+          <th>Paket</th>
+          <th>Harga</th>
+          <th>Durasi</th>
+          <th>Guide</th>
+          <th>Konsumsi</th>
+          <th>Perlengkapan</th>
+          <th>Asuransi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="pkg-name">🥉 Basic</td>
+          <td>Rp 500rb–1jt</td>
+          <td>1–2 Hari</td>
+          <td class="pkg-inc">✔ Ada</td>
+          <td class="pkg-inc">✔ Ada</td>
+          <td class="pkg-exc">✘ Tidak</td>
+          <td class="pkg-exc">✘ Tidak</td>
+        </tr>
+        <tr>
+          <td class="pkg-name">🥈 Standard</td>
+          <td>Rp 1jt–2jt</td>
+          <td>3–4 Hari</td>
+          <td class="pkg-inc">✔ Ada</td>
+          <td class="pkg-inc">✔ Ada</td>
+          <td class="pkg-inc">✔ Ada</td>
+          <td class="pkg-exc">✘ Tidak</td>
+        </tr>
+        <tr>
+          <td class="pkg-name">🥇 Premium</td>
+          <td>Rp 2jt–3,5jt</td>
+          <td>4–7 Hari</td>
+          <td class="pkg-inc">✔ Ada</td>
+          <td class="pkg-inc">✔ Ada</td>
+          <td class="pkg-inc">✔ Ada</td>
+          <td class="pkg-inc">✔ Ada</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ===== GALERI ===== -->
+<section id="galeri">
+  <div class="galeri-header">
+    <div>
+      <span class="section-tag">Galeri</span>
+      <h2 class="section-title">Momen <span>Tak Terlupakan</span></h2>
+      <p class="section-subtitle">Koleksi foto dari berbagai perjalanan bersama para pendaki SummitXyrenn.</p>
+    </div>
+    <div class="filter-btns">
+      <button class="filter-btn active" onclick="filterGallery('all', this)">Semua</button>
+      <button class="filter-btn" onclick="filterGallery('puncak', this)">Puncak</button>
+      <button class="filter-btn" onclick="filterGallery('camp', this)">Camp</button>
+      <button class="filter-btn" onclick="filterGallery('alam', this)">Alam</button>
+    </div>
+  </div>
+  <div class="gallery-grid" id="galleryGrid">
+    <div class="gallery-item tall" data-cat="puncak" onclick="openLightbox(this)">
+      <img src="c:\Users\Irene Apriani\Downloads\puncak rinjani.png" alt="Puncak Rinjani">
+      <div class="gallery-overlay"><span>🏔 Puncak Rinjani</span></div>
+    </div>
+    <div class="gallery-item" data-cat="camp" onclick="openLightbox(this)">
+      <img src="c:\Users\Irene Apriani\Downloads\camp malam.jpg" alt="Camp Malam">
+      <div class="gallery-overlay"><span>⛺ Camp Malam</span></div>
+    </div>
+    <div class="gallery-item wide" data-cat="alam" onclick="openLightbox(this)">
+      <img src="c:\Users\Irene Apriani\Downloads\savana semeru.jpg" alt="Savana Indah">
+      <div class="gallery-overlay"><span>🌿 Savana Semeru</span></div>
+    </div>
+    <div class="gallery-item" data-cat="puncak" onclick="openLightbox(this)">
+      <img src="c:\Users\Irene Apriani\Downloads\golden sunrise.jpg" alt="Sunrise">
+      <div class="gallery-overlay"><span>🌄 Golden Sunrise</span></div>
+    </div>
+    <div class="gallery-item" data-cat="camp" onclick="openLightbox(this)">
+      <img src="c:\Users\Irene Apriani\Downloads\Camping-di-Danau-Lawar-1024x509.jpg" alt="Danau Kawah">
+      <div class="gallery-overlay"><span>🏕 Camp Tepi Danau</span></div>
+    </div>
+    <div class="gallery-item tall" data-cat="alam" onclick="openLightbox(this)">
+      <img src="c:\Users\Irene Apriani\Downloads\jalur hijau.jpeg" alt="Jalur Pendakian">
+      <div class="gallery-overlay"><span>🌲 Jalur Hijau</span></div>
+    </div>
+    <div class="gallery-item" data-cat="puncak" onclick="openLightbox(this)">
+      <img src="c:\Users\Irene Apriani\Downloads\Kawah-Gunung-Bromo.jpg" alt="Kawah Bromo">
+      <div class="gallery-overlay"><span>🌋 Kawah Bromo</span></div>
+    </div>
+    <div class="gallery-item wide" data-cat="alam" onclick="openLightbox(this)">
+      <img src="c:\Users\Irene Apriani\Downloads\Ternyata-Ini-Top-5-Gunung-Tertinggi-di-Indonesia (1).jpg" alt="Gunung Bersalju">
+      <div class="gallery-overlay"><span>❄ Puncak Tertinggi</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <span class="lightbox-close" onclick="closeLightbox()">✕</span>
+  <img src="" alt="" id="lightboxImg">
+</div>
+
+<!-- ===== KONTAK ===== -->
+<section id="kontak">
+  <div style="text-align:center;margin-bottom:56px;">
+    <span class="section-tag">Hubungi Kami</span>
+    <h2 class="section-title">Siap <span>Mendaki</span> Bersama?</h2>
+  </div>
+  <div class="kontak-grid">
+    <div class="kontak-info">
+      <h3>Informasi Kontak</h3>
+      <p>Hubungi kami untuk informasi lebih lanjut tentang trip, ketersediaan jadwal, atau pertanyaan apapun seputar pendakian.</p>
+      <div class="contact-items">
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div>
+            <h4>Alamat Sekretariat</h4>
+            <p>Jl. Edelweiss No. 17 - Tangerang, Banten>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📱</div>
+          <div>
+            <h4>WhatsApp / Telepon</h4>
+            <p>+62 878 1704 2006</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📧</div>
+          <div>
+            <h4>Email</h4>
+            <p>info@summitxyrenn.id</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">🕐</div>
+          <div>
+            <h4>Jam Operasional</h4>
+            <p>Senin–Jumat: 08.00–17.00 WIB</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kontak-form">
+      <h3>Formulir Pendaftaran Trip</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="nama">Nama Lengkap *</label>
+          <input type="text" id="nama"
+        </div>
+        <div class="form-group">
+          <label for="email">Email *</label>
+          <input type="email" id="email"
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="telp">No. WhatsApp *</label>
+          <input type="tel" id="telp" placeholder="+62" required
+        </div>
+        <div class="form-group">
+          <label for="peserta">Jumlah Peserta *</label>
+          <input type="number" id="peserta" placeholder="1" min="1" max="25" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="destinasi">Pilih Destinasi *</label>
+        <select id="destinasi" required>
+          <option value="">-- Pilih Gunung --</option>
+          <option value="rinjani">Gunung Rinjani – Rp 1.850.000</option>
+          <option value="semeru">Gunung Semeru – Rp 2.200.000</option>
+          <option value="prau">Gunung Prau – Rp 550.000</option>
+          <option value="kelimutu">Gunung Papandayan – Rp 500.000</option>
+          <option value="merbabu">Gunung Merbabu – Rp 750.000</option>
+          <option value="bromo">Gunung Bromo – Rp 650.000</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="tanggal">Tanggal Keberangkatan *</label>
+        <input type="date" id="tanggal" required>
+      </div>
+      <div class="form-group">
+        <label for="pengalaman">Pengalaman Mendaki</label>
+        <select id="pengalaman">
+          <option value="pemula">Pemula (belum pernah)</option>
+          <option value="dasar">Dasar (1–3 kali)</option>
+          <option value="menengah">Menengah (4–10 kali)</option>
+          <option value="expert">Berpengalaman (10+ kali)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="pesan">Pesan / Pertanyaan</label>
+        <textarea id="pesan" placeholder="Tuliskan pertanyaan atau kebutuhan khusus Anda..."></textarea>
+      </div>
+      <button type="button" class="form-submit" onclick="submitForm()">🏔 Kirim Pendaftaran</button>
+      <div class="form-success" id="formSuccess">
+        ✅ Pendaftaran berhasil! Tim kami akan menghubungi kamu dalam 1×24 jam. Semangat mendaki! 🏔
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#home" class="nav-logo">Summit<span style="color:var(--gold)">Xyrenn</span></a>
+      <p>Komunitas open trip gunung terpercaya di Indonesia. Bersama kami, setiap puncak bisa ditaklukkan dengan aman dan berkesan.</p>
+      <div class="footer-socials">
+        <a class="social-btn" href="#" title="Instagram">📸</a>
+        <a class="social-btn" href="#" title="TikTok">🎵</a>
+        <a class="social-btn" href="#" title="YouTube">▶</a>
+        <a class="social-btn" href="#" title="WhatsApp">💬</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Navigasi</h4>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#tentang">Tentang Kami</a></li>
+        <li><a href="#layanan">Layanan & Trip</a></li>
+        <li><a href="#galeri">Galeri</a></li>
+        <li><a href="#kontak">Kontak</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Destinasi</h4>
+      <ul>
+        <li><a href="#kontak">Gunung Rinjani</a></li>
+        <li><a href="#kontak">Gunung Semeru</a></li>
+        <li><a href="#kontak">Gunung Prau</a></li>
+        <li><a href="#kontak">Gunung Merbabu</a></li>
+        <li><a href="#kontak">Gunung Bromo</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Informasi</h4>
+      <ul>
+        <li><a href="#">Syarat & Ketentuan</a></li>
+        <li><a href="#">Kebijakan Pembatalan</a></li>
+        <li><a href="#">Tips Pendakian</a></li>
+        <li><a href="#">FAQ</a></li>
+        <li><a href="#">Blog</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2024 SummitXyrenn. Dibuat dengan ❤ untuk para pendaki Indonesia.</p>
+    <p style="color:rgba(255,255,255,.35);font-size:.78rem;">Tugas Praktikum Pemrograman Web | NIM: 231501001</p>
+  </div>
+</footer>
+
+<!-- Scroll to Top -->
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+  const navbar = document.getElementById('navbar');
+  const scrollTopBtn = document.getElementById('scrollTop');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 60) {
+      navbar.classList.add('scrolled');
+      scrollTopBtn.classList.add('visible');
+    } else {
+      navbar.classList.remove('scrolled');
+      scrollTopBtn.classList.remove('visible');
+    }
+  });
+
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    navLinks.classList.toggle('open');
+  });
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      navLinks.classList.remove('open');
+    });
+  });
+
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 100);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(r => observer.observe(r));
+
+  function filterGallery(cat, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.gallery-item').forEach(item => {
+      if (cat === 'all' || item.dataset.cat === cat) {
+        item.style.opacity = '1';
+        item.style.pointerEvents = 'auto';
+        item.style.transform = 'scale(1)';
+      } else {
+        item.style.opacity = '0.2';
+        item.style.pointerEvents = 'none';
+        item.style.transform = 'scale(.96)';
+      }
+    });
+  }
+
+  function openLightbox(el) {
+    const img = el.querySelector('img');
+    document.getElementById('lightboxImg').src = img.src;
+    document.getElementById('lightboxImg').alt = img.alt;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('lightbox').addEventListener('click', function(e) {
+    if (e.target === this) closeLightbox();
+  });
+
+  function submitForm() {
+    const nama = document.getElementById('nama').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const telp = document.getElementById('telp').value.trim();
+    const peserta = document.getElementById('peserta').value;
+    const destinasi = document.getElementById('destinasi').value;
+    const tanggal = document.getElementById('tanggal').value;
+
+    if (!nama || !email || !telp || !peserta || !destinasi || !tanggal) {
+      alert('⚠️ Mohon lengkapi semua field yang wajib diisi (*).');
+      return;  
+    }
+    if (!email.includes('@') || !email.includes('.')) {
+      alert('⚠️ Format email tidak valid.');
+      return;
+    }
+    const success = document.getElementById('formSuccess');
+    success.classList.add('show');
+    ['nama','email','telp','peserta','tanggal','pesan'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('destinasi').value = '';
+    document.getElementById('pengalaman').value = 'pemula';
+    setTimeout(() => success.classList.remove('show'), 6000);
+  }
+
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('tanggal').min = today;
+</script>
+</body>
+</html>
